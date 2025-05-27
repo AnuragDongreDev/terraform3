@@ -75,3 +75,20 @@ changed to:
   "from": "now-6h",
   "to": "now"
 }
+
+7. For CPU somehow grafana was automatically adjusting the Y-Axis to 60 because the CPU never went beyond it. It is thogh good for visualization and adds good visual and also adjusts automatically to 100 if and when required, i still wanted to make it static to 0-100. Hence i added the following:
+-            "axisLabel": "",
++            "axisLabel": "CPU %",
+             "axisPlacement": "auto",
+             "barAlignment": 0,
+             "barWidthFactor": 0.6,
+@@ -64,6 +64,8 @@
+               "mode": "off"
+             }
+           },
++          "max": 100,
++          "min": 0,
+           "mappings": [],
+           "thresholds": {
+             "mode": "absolute",
+             
