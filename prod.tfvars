@@ -1,0 +1,6 @@
+ DWH-cloudwatch_uid = "Mention appropriate id here for prod"
+  BI-cloudwatch_uid = "Mention appropriate id here for prod"
+  DWH-Redshift_uid = "Mention appropriate id here for prod"
+  BI-Redshift_uid = "Mention appropriate id here for prod"
+  DWH-Athena_uid = "Mention appropriate id here for prod"
+  BI-Athena_uid = "Mention appropriate id here for prod"
