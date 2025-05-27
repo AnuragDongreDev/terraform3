@@ -114,7 +114,7 @@
           },
           "expression": "",
           "id": "",
-          "label": "",
+          "label": "CPUUtilization-DWH",
           "logGroups": [],
           "matchExact": true,
           "metricEditorMode": 0,
@@ -124,7 +124,32 @@
           "period": "",
           "queryLanguage": "CWLI",
           "queryMode": "Metrics",
-          "refId": "A",
+          "refId": "redshift-DWH",
+          "region": "default",
+          "sqlExpression": "",
+          "statistic": "Average"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "bemgfqzcydon4f"
+          },
+          "dimensions": {
+            "ClusterIdentifier": "redshift-cluster-ft-grafana"
+          },
+          "expression": "",
+          "id": "",
+          "label": "CPUUtilization-BI",
+          "logGroups": [],
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "CPUUtilization",
+          "metricQueryType": 0,
+          "namespace": "AWS/Redshift",
+          "period": "",
+          "queryLanguage": "CWLI",
+          "queryMode": "Metrics",
+          "refId": "redshift-BI",
           "region": "default",
           "sqlExpression": "",
           "statistic": "Average"
@@ -223,7 +248,7 @@
           "expression": "",
           "hide": false,
           "id": "",
-          "label": "",
+          "label": "WLMQueueWaitTime-DWH",
           "logGroups": [],
           "matchExact": true,
           "metricEditorMode": 0,
@@ -233,7 +258,31 @@
           "period": "",
           "queryLanguage": "CWLI",
           "queryMode": "Metrics",
-          "refId": "B",
+          "refId": "redshift-DWH",
+          "region": "default",
+          "sqlExpression": "",
+          "statistic": "Average"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "bemgfqzcydon4f"
+          },
+          "dimensions": {},
+          "expression": "",
+          "hide": false,
+          "id": "",
+          "label": "WLMQueueWaitTime-BI",
+          "logGroups": [],
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "WLMQueueWaitTime",
+          "metricQueryType": 0,
+          "namespace": "AWS/Redshift",
+          "period": "",
+          "queryLanguage": "CWLI",
+          "queryMode": "Metrics",
+          "refId": "redshift-BI",
           "region": "default",
           "sqlExpression": "",
           "statistic": "Average"
@@ -329,7 +378,15 @@
             "uid": "eemjx24g023uoa"
           },
           "rawSQL": "    SELECT\n  query,\n  starttime,\n  endtime,\n  DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds\nFROM\n  stl_query\nWHERE\n  1=1 --userid > 1 -- exclude system queries\nORDER BY\n  starttime DESC;\n",
-          "refId": "A"
+          "refId": "redshift-DWH"
+        },
+        {
+          "datasource": {
+            "type": "grafana-redshift-datasource",
+            "uid": "eemjx24g023uoa"
+          },
+          "rawSQL": "SELECT query, starttime, endtime, DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds FROM stl_query WHERE 1=1 ORDER BY starttime DESC;",
+          "refId": "redshift-BI"
         }
       ],
       "title": "QueryExecutionTime",
@@ -430,7 +487,24 @@
           },
           "format": 1,
           "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
-          "refId": "A",
+          "refId": "Redshift-DWH",
+          "table": "historicaltrendbucketforcpuutilization"
+        },
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "cloudwatch_metrics_stream_db",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "eemk9eiajn7cwb"
+          },
+          "format": 1,
+          "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
+          "refId": "Redshift-BI",
           "table": "historicaltrendbucketforcpuutilization"
         }
       ],
