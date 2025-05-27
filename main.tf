@@ -18,4 +18,5 @@ terraform {
 
 resource "grafana_dashboard" "main" {
   config_json = file("${path.module}/dashboard.json")
+  overwrite = true
 }
