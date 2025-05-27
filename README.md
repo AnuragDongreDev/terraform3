@@ -29,3 +29,49 @@ If you dont remove uid and if the dashboardi s already present then the same das
 If you remove uid, then a duplicate dashboard with new name is made(provided you provide the :
 new name in the end of json looks something like below:
   "title": "EC2 Monitoring2",
+
+
+
+5. I did some more changes and terraform apply gave me the following error:
+
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+grafana_dashboard.main: Creating...
+╷
+│ Error: status: 412, body: {"message":"The dashboard has been changed by someone else","status":"version-mismatch"}
+│
+│   with grafana_dashboard.main,
+│   on main.tf line 19, in resource "grafana_dashboard" "main":
+│   19: resource "grafana_dashboard" "main" {
+│
+
+
+So the solution was to include the overwrite param like below:
+
+resource "grafana_dashboard" "main" {
+  config_json = file("${path.module}/dashboard.json")
+  overwrite = true
+}
+I could also have tried removing the version number in the end of the JSON file. But i thought overwrite is a better option to work with.
+
+6. In grafana for some reason when i apply terraform init and apply it works fine. But the timerange selected is 21st may while today is 27th may. 21st may was the day when i had setup this panel.  Why does all the panels keep going back to 21st May?
+   Its is Because my export of grafana was considering the time when it was first made. I changed the following to "now-6h":
+"time": {
+  "from": "2024-05-21T00:00:00Z",
+  "to": "2024-05-21T23:59:59Z"
+},
+"timepicker": {
+  ...
+}
+
+
+changed to:
+"time": {
+  "from": "now-6h",
+  "to": "now"
+}
