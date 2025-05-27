@@ -1,22 +1,11 @@
-provider "grafana" {
-  url  = "http://localhost:3000"
-  auth = "admin:admin"  # or use env vars for secrets
+# Create folder for dashboards
+resource "grafana_folder" "monitoring" {
+  title = var.folder_name
 }
 
-
-
-terraform {
-  required_providers {
-    grafana = {
-      source  = "grafana/grafana"
-      version = "~> 1.0"  # or latest compatible version
-    }
-  }
-}
-
-
-
+# Deploy dashboard
 resource "grafana_dashboard" "main" {
-  config_json = file("${path.module}/dashboard.json")
-  overwrite = true
+  folder      = grafana_folder.monitoring.id
+  config_json = file("${path.module}/${var.dashboard_path}")
+  overwrite   = true
 }
