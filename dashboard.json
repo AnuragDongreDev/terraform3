@@ -443,7 +443,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-23h",
     "to": "now"
   },
   "timepicker": {},
