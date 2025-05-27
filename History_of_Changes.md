@@ -1,4 +1,4 @@
-#Changes that you would be required to do for FT
+# Changes that you would be required to do for FT
 
 # 1. Create the datasource with AWS SDK authentication, this way the .aws/credentails will be already read or it will be picked from the env. Or else credentials file should work.
 # 2. The same datasource string should be used. in the tf file as explained later.
