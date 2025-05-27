@@ -35,7 +35,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "CPU %",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -64,6 +64,8 @@
               "mode": "off"
             }
           },
+          "max": 100,
+          "min": 0,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
