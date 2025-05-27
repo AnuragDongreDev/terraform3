@@ -23,7 +23,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "cloudwatch"
+        "type": "cloudwatch",
+        "uid": "bemgfqzcydon4f"
       },
       "fieldConfig": {
         "defaults": {
@@ -103,7 +104,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "cloudwatch"
+            "type": "cloudwatch",
+            "uid": "bemgfqzcydon4f"
           },
           "dimensions": {
             "ClusterIdentifier": "redshift-cluster-ft-grafana"
@@ -124,29 +126,6 @@
           "region": "default",
           "sqlExpression": "",
           "statistic": "Average"
-        },
-        {
-          "datasource": {
-            "type": "cloudwatch"
-          },
-          "dimensions": {},
-          "expression": "",
-          "hide": false,
-          "id": "",
-          "label": "",
-          "logGroups": [],
-          "matchExact": true,
-          "metricEditorMode": 0,
-          "metricName": "",
-          "metricQueryType": 0,
-          "namespace": "",
-          "period": "",
-          "queryLanguage": "CWLI",
-          "queryMode": "Metrics",
-          "refId": "B",
-          "region": "default",
-          "sqlExpression": "",
-          "statistic": "Average"
         }
       ],
       "title": "CPU Utillization",
@@ -154,7 +133,8 @@
     },
     {
       "datasource": {
-        "type": "cloudwatch"
+        "type": "cloudwatch",
+        "uid": "bemgfqzcydon4f"
       },
       "fieldConfig": {
         "defaults": {
@@ -234,7 +214,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "cloudwatch"
+            "type": "cloudwatch",
+            "uid": "bemgfqzcydon4f"
           },
           "dimensions": {},
           "expression": "",
@@ -261,7 +242,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-redshift-datasource"
+        "type": "grafana-redshift-datasource",
+        "uid": "eemjx24g023uoa"
       },
       "fieldConfig": {
         "defaults": {
@@ -341,9 +323,10 @@
       "targets": [
         {
           "datasource": {
-            "type": "grafana-redshift-datasource"
+            "type": "grafana-redshift-datasource",
+            "uid": "eemjx24g023uoa"
           },
-          "rawSQL": "    SELECT\n  query,\n  starttime,\n  endtime,\n  DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds\nFROM\n  stl_query\nWHERE\n  userid > 1 -- exclude system queries\nORDER BY\n  starttime DESC;\n",
+          "rawSQL": "    SELECT\n  query,\n  starttime,\n  endtime,\n  DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds\nFROM\n  stl_query\nWHERE\n  1=1 --userid > 1 -- exclude system queries\nORDER BY\n  starttime DESC;\n",
           "refId": "A"
         }
       ],
@@ -352,7 +335,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-athena-datasource"
+        "type": "grafana-athena-datasource",
+        "uid": "eemk9eiajn7cwb"
       },
       "fieldConfig": {
         "defaults": {
@@ -439,7 +423,8 @@
             "resultReuseMaxAgeInMinutes": 60
           },
           "datasource": {
-            "type": "grafana-athena-datasource"
+            "type": "grafana-athena-datasource",
+            "uid": "eemk9eiajn7cwb"
           },
           "format": 1,
           "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
@@ -458,11 +443,12 @@
     "list": []
   },
   "time": {
-    "from": "2025-05-21T08:34:00.000Z",
-    "to": "2025-05-21T09:27:00.000Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "EC2 Monitoring_Test1",
-  "version": 14
+  "title": "EC2 Monitoring",
+  "uid": "demguq69nd728b",
+  "version": 16
 }
