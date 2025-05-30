@@ -23,7 +23,7 @@ This project deploys Grafana dashboards for monitoring Redshift clusters across 
 ```json
 "datasource": {
   "type": "cloudwatch",
-  "uid": "${DWH-cloudwatch_uid}"
+  "uid": "${DWH_cloudwatch_uid}"
 }
 ```
 
@@ -36,7 +36,7 @@ This project deploys Grafana dashboards for monitoring Redshift clusters across 
 Create `variables.tf` with all required variables:
 
 ```hcl
-variable "DWH-cloudwatch_uid" {
+variable "DWH_cloudwatch_uid" {
   description = "UID for CloudWatch datasource for DWH cluster"
   type        = string
 }
@@ -57,12 +57,12 @@ Update `main.tf` to use the template:
 resource "grafana_dashboard" "main" {
   folder      = grafana_folder.monitoring.id
   config_json = templatefile("${path.module}/dashboard.template.json", {
-    DWH-cloudwatch_uid = var.DWH-cloudwatch_uid
-    BI-cloudwatch_uid = var.BI-cloudwatch_uid
-    DWH-Redshift_uid = var.DWH-Redshift_uid
-    BI-Redshift_uid = var.BI-Redshift_uid
-    DWH-Athena_uid = var.DWH-Athena_uid
-    BI-Athena_uid = var.BI-Athena_uid
+    DWH_cloudwatch_uid = var.DWH-cloudwatch_uid
+    BI_cloudwatch_uid = var.BI-cloudwatch_uid
+    DWH_Redshift_uid = var.DWH-Redshift_uid
+    BI_Redshift_uid = var.BI-Redshift_uid
+    DWH_Athena_uid = var.DWH-Athena_uid
+    BI_Athena_uid = var.BI-Athena_uid
   })
   overwrite   = true
 }
@@ -73,23 +73,23 @@ resource "grafana_dashboard" "main" {
 Create `dev.tfvars` for development:
 
 ```hcl
-DWH-cloudwatch_uid = "dev-dwh-cloudwatch-uid"
-BI-cloudwatch_uid = "dev-bi-cloudwatch-uid"
-DWH-Redshift_uid = "dev-dwh-redshift-uid"
-BI-Redshift_uid = "dev-bi-redshift-uid"
-DWH-Athena_uid = "dev-dwh-athena-uid"
-BI-Athena_uid = "dev-bi-athena-uid"
+DWH_cloudwatch_uid = "dev-dwh-cloudwatch-uid"
+BI-_cloudwatch_uid = "dev-bi-cloudwatch-uid"
+DWH_Redshift_uid = "dev-dwh-redshift-uid"
+BI_Redshift_uid = "dev-bi-redshift-uid"
+DWH_Athena_uid = "dev-dwh-athena-uid"
+BI_Athena_uid = "dev-bi-athena-uid"
 ```
 
 Create `prod.tfvars` for production:
 
 ```hcl
-DWH-cloudwatch_uid = "prod-dwh-cloudwatch-uid"
-BI-cloudwatch_uid = "prod-bi-cloudwatch-uid"
-DWH-Redshift_uid = "prod-dwh-redshift-uid"
-BI-Redshift_uid = "prod-bi-redshift-uid"
-DWH-Athena_uid = "prod-dwh-athena-uid"
-BI-Athena_uid = "prod-bi-athena-uid"
+DWH_cloudwatch_uid = "prod-dwh-cloudwatch-uid"
+BI_cloudwatch_uid = "prod-bi-cloudwatch-uid"
+DWH_Redshift_uid = "prod-dwh-redshift-uid"
+BI_Redshift_uid = "prod-bi-redshift-uid"
+DWH_Athena_uid = "prod-dwh-athena-uid"
+BI_Athena_uid = "prod-bi-athena-uid"
 ```
 
 ### 5. Finding UIDs in Grafana
@@ -141,12 +141,12 @@ terraform apply -var-file=dev.tfvars -var="grafana_url=http://grafana.example.co
 | grafana_url | URL of the Grafana instance | http://localhost:3000 |
 | grafana_auth | Authentication credentials | admin:admin |
 | folder_name | Grafana folder name | Redshift Monitoring |
-| DWH-cloudwatch_uid | UID for CloudWatch datasource for DWH cluster | (no default) |
-| BI-cloudwatch_uid | UID for CloudWatch datasource for BI cluster | (no default) |
-| DWH-Redshift_uid | UID for Redshift datasource for DWH cluster | (no default) |
-| BI-Redshift_uid | UID for Redshift datasource for BI cluster | (no default) |
-| DWH-Athena_uid | UID for Athena datasource for DWH cluster | (no default) |
-| BI-Athena_uid | UID for Athena datasource for BI cluster | (no default) |
+| DWH_cloudwatch_uid | UID for CloudWatch datasource for DWH cluster | (no default) |
+| BI_cloudwatch_uid | UID for CloudWatch datasource for BI cluster | (no default) |
+| DWH_Redshift_uid | UID for Redshift datasource for DWH cluster | (no default) |
+| BI_Redshift_uid | UID for Redshift datasource for BI cluster | (no default) |
+| DWH_Athena_uid | UID for Athena datasource for DWH cluster | (no default) |
+| BI_Athena_uid | UID for Athena datasource for BI cluster | (no default) |
 
 ## Security Note
 
