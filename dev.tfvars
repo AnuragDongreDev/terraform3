@@ -4,4 +4,4 @@
   BI_Redshift_uid = "benf886i668sga"
   DWH_Athena_uid = "eemk9eiajn7cwb"
   BI_Athena_uid = "ben30syzvah34b"
-
+  alert_email = "anuragdongre198609@gmail.com"

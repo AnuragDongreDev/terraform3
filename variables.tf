@@ -17,6 +17,11 @@ variable "folder_name" {
   default     = "Redshift Monitoring"
 }
 
+variable "alert_email" {
+  description = "Email address to receive alert notifications"
+  type        = string
+  default     = "anuragdongre198609@gmail.com"
+}
 
 variable "DWH_cloudwatch_uid" {
   description = "UID for cloudwatch datasource defined in grafana for the Redshift cluster - DWH"

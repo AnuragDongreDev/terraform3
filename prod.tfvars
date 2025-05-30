@@ -4,3 +4,4 @@
   BI_Redshift_uid = "Mention appropriate id here for prod"
   DWH_Athena_uid = "Mention appropriate id here for prod"
   BI_Athena_uid = "Mention appropriate id here for prod"
+  alert_email = "prod-alerts@example.com"
