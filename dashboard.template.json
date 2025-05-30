@@ -132,7 +132,7 @@
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "${BI-cloudwatch_uid}"
+            "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {
             "ClusterIdentifier": "redshift-cluster-ft-grafana"
@@ -266,7 +266,7 @@
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "${BI-cloudwatch_uid}"
+            "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {},
           "expression": "",
@@ -383,7 +383,7 @@
         {
           "datasource": {
             "type": "grafana-redshift-datasource",
-            "uid": "${BI-Redshift_uid}"
+            "uid": "${BI_Redshift_uid}"
           },
           "rawSQL": "SELECT query, starttime, endtime, DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds FROM stl_query WHERE 1=1 ORDER BY starttime DESC;",
           "refId": "redshift-BI"
@@ -500,7 +500,7 @@
           },
           "datasource": {
             "type": "grafana-athena-datasource",
-            "uid": "${BI-Redshift_uid}"
+            "uid": "${BI_Redshift_uid}"
           },
           "format": 1,
           "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",

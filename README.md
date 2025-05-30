@@ -41,7 +41,7 @@ variable "DWH_cloudwatch_uid" {
   type        = string
 }
 
-variable "BI-cloudwatch_uid" {
+variable "BI_cloudwatch_uid" {
   description = "UID for CloudWatch datasource for BI cluster"
   type        = string
 }
@@ -58,11 +58,11 @@ resource "grafana_dashboard" "main" {
   folder      = grafana_folder.monitoring.id
   config_json = templatefile("${path.module}/dashboard.template.json", {
     DWH_cloudwatch_uid = var.DWH_cloudwatch_uid
-    BI_cloudwatch_uid = var.BI-cloudwatch_uid
+    BI_cloudwatch_uid = var.BI_cloudwatch_uid
     DWH_Redshift_uid = var.DWH_Redshift_uid
-    BI_Redshift_uid = var.BI-Redshift_uid
+    BI_Redshift_uid = var.BI_Redshift_uid
     DWH_Athena_uid = var.DWH_Athena_uid
-    BI_Athena_uid = var.BI-Athena_uid
+    BI_Athena_uid = var.BI_Athena_uid
   })
   overwrite   = true
 }
@@ -74,7 +74,7 @@ Create `dev.tfvars` for development:
 
 ```hcl
 DWH_cloudwatch_uid = "dev-dwh-cloudwatch-uid"
-BI-_cloudwatch_uid = "dev-bi-cloudwatch-uid"
+BI_cloudwatch_uid = "dev-bi-cloudwatch-uid"
 DWH_Redshift_uid = "dev-dwh-redshift-uid"
 BI_Redshift_uid = "dev-bi-redshift-uid"
 DWH_Athena_uid = "dev-dwh-athena-uid"
