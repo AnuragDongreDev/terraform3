@@ -57,11 +57,11 @@ Update `main.tf` to use the template:
 resource "grafana_dashboard" "main" {
   folder      = grafana_folder.monitoring.id
   config_json = templatefile("${path.module}/dashboard.template.json", {
-    DWH_cloudwatch_uid = var.DWH-cloudwatch_uid
+    DWH_cloudwatch_uid = var.DWH_cloudwatch_uid
     BI_cloudwatch_uid = var.BI-cloudwatch_uid
-    DWH_Redshift_uid = var.DWH-Redshift_uid
+    DWH_Redshift_uid = var.DWH_Redshift_uid
     BI_Redshift_uid = var.BI-Redshift_uid
-    DWH_Athena_uid = var.DWH-Athena_uid
+    DWH_Athena_uid = var.DWH_Athena_uid
     BI_Athena_uid = var.BI-Athena_uid
   })
   overwrite   = true

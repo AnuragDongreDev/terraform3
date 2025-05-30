@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "cloudwatch",
-        "uid": "${DWH-cloudwatch_uid}"
+        "uid": "${DWH_cloudwatch_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -107,7 +107,7 @@
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "${DWH-cloudwatch_uid}"
+            "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
             "ClusterIdentifier": "redshift-cluster-ft-grafana"
@@ -161,7 +161,7 @@
     {
       "datasource": {
         "type": "cloudwatch",
-        "uid": "${DWH-cloudwatch_uid}"
+        "uid": "${DWH_cloudwatch_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -242,7 +242,7 @@
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "${DWH-cloudwatch_uid}"
+            "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {},
           "expression": "",
@@ -294,7 +294,7 @@
     {
       "datasource": {
         "type": "grafana-redshift-datasource",
-        "uid": "${DWH-Redshift_uid}"
+        "uid": "${DWH_Redshift_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -375,7 +375,7 @@
         {
           "datasource": {
             "type": "grafana-redshift-datasource",
-            "uid": "${DWH-Redshift_uid}"
+            "uid": "${DWH_Redshift_uid}"
           },
           "rawSQL": "    SELECT\n  query,\n  starttime,\n  endtime,\n  DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds\nFROM\n  stl_query\nWHERE\n  1=1 --userid > 1 -- exclude system queries\nORDER BY\n  starttime DESC;\n",
           "refId": "redshift-DWH"
@@ -395,7 +395,7 @@
     {
       "datasource": {
         "type": "grafana-athena-datasource",
-        "uid": "${DWH-Athena_uid}"
+        "uid": "${DWH_Athena_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -483,7 +483,7 @@
           },
           "datasource": {
             "type": "grafana-athena-datasource",
-            "uid": "${DWH-Redshift_uid}"
+            "uid": "${DWH_Redshift_uid}"
           },
           "format": 1,
           "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
