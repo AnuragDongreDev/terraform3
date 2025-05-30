@@ -18,31 +18,31 @@ variable "folder_name" {
 }
 
 
-variable "DWH-cloudwatch_uid" {
+variable "DWH_cloudwatch_uid" {
   description = "UID for cloudwatch datasource defined in grafana for the Redshift cluster - DWH"
   type        = string
 }
-variable "BI-cloudwatch_uid" {
+variable "BI_cloudwatch_uid" {
   description = "UID for cloudwatch datasource defined in grafana for the Redshift cluster - BI"
   type        = string
 }
 
-variable "DWH-Redshift_uid" {
+variable "DWH_Redshift_uid" {
   description = "UID for Redshift datasource defined in grafana for the Redshift cluster - DWH"
   type        = string
 }
 
-variable "BI-Redshift_uid" {
+variable "BI_Redshift_uid" {
   description = "UID for Redshift datasource defined in grafana for the Redshift cluster - BI"
   type        = string
 }
 
-variable "DWH-Athena_uid" {
+variable "DWH_Athena_uid" {
   description = "UID for Athena datasource defined in grafana for the Redshift cluster - DWH"
   type        = string
 }
 
-variable "BI-Athena_uid" {
+variable "BI_Athena_uid" {
   description = "UID for Athena datasource defined in grafana for the Redshift cluster - BI"
   type        = string
 }
