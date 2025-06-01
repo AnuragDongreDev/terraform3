@@ -1,11 +1,11 @@
-# Create folder for dashboards
-resource "grafana_folder" "monitoring" {
-  title = var.folder_name
+# Use the same folder for both dashboards and alerts
+resource "grafana_folder" "monitoring_folder" {
+  title = "DPM-Redshift Monitoring"
 }
 
 # Deploy dashboard
 resource "grafana_dashboard" "main" {
-  folder      = grafana_folder.monitoring.id
+  folder      = grafana_folder.monitoring_folder.id
   config_json = templatefile("${path.module}/dashboard.template.json",
   {
   DWH_cloudwatch_uid = var.DWH_cloudwatch_uid
