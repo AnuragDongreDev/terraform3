@@ -1,5 +1,7 @@
 # Folder is now defined in main.tf and shared between dashboards and alerts
 
+
+
 # Create contact point for email notifications
 resource "grafana_contact_point" "email" {
   name = "AnuragContactPoint"
@@ -27,7 +29,6 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
   interval_seconds = 60 # 1m
   org_id           = 1
   
-
   # Alert for WLMQueue DWH
   rule {
     name           = "Alert_for_WLMQueue_DWH"
