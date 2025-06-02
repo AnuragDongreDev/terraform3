@@ -22,13 +22,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Start Grafana Container
-          command: |
-            apk add --no-cache docker-cli
-            docker run -d -p 3000:3000 --name=grafana -e GF_SECURITY_ADMIN_PASSWORD=admin grafana/grafana:latest
-            sleep 10
-
-      - run:
           command: terraform init
       - run:
           command: terraform validate
@@ -43,12 +36,6 @@ jobs:
     executor: terraform
     steps:
       - checkout
-      - run:
-          name: Start Grafana Container
-          command: |
-            apk add --no-cache docker-cli
-            docker run -d -p 3000:3000 --name=grafana -e GF_SECURITY_ADMIN_PASSWORD=admin grafana/grafana:latest
-            sleep 10
       - attach_workspace:
           at: .
       - run:
