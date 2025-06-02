@@ -15,5 +15,5 @@ resource "grafana_dashboard" "main" {
       DWH_Athena_uid     = var.DWH_Athena_uid
       BI_Athena_uid      = var.BI_Athena_uid
   })
-  overwrite = false
+  overwrite = true
 }
