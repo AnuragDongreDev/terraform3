@@ -1,8 +1,4 @@
-# Folder is now defined in main.tf and shared between dashboards and alerts
-
-
-
-# Create contact point for email notifications
+# Create contact point for email notifications - this worked for me but we will need to change it for slcak
 resource "grafana_contact_point" "email" {
   name = "AnuragContactPoint"
 
