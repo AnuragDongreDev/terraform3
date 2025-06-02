@@ -57,7 +57,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - main1
                 - final10
       - apply:
           requires:
@@ -65,5 +65,5 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - main1
                 - final10
