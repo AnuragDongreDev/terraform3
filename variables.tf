@@ -8,7 +8,7 @@ variable "grafana_auth" {
   description = "Authentication credentials for Grafana"
   type        = string
   sensitive   = true
-  default     = "admin:admin"  # Default for local development only
+  default     = "admin:admin" # Default for local development only
 }
 
 variable "folder_name" {

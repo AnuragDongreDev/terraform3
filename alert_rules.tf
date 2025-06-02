@@ -1,11 +1,7 @@
-# Folder is now defined in main.tf and shared between dashboards and alerts
-
-
-
-# Create contact point for email notifications
+# Create contact point for email notifications - this worked for me but we will need to change it for slcak
 resource "grafana_contact_point" "email" {
   name = "AnuragContactPoint"
-  
+
   email {
     addresses = [var.alert_email]
     message   = "{{ .Message }}"
@@ -28,7 +24,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
   folder_uid       = grafana_folder.monitoring_folder.uid
   interval_seconds = 60 # 1m
   org_id           = 1
-  
+
   # Alert for WLMQueue DWH
   rule {
     name           = "Alert_for_WLMQueue_DWH"
@@ -36,11 +32,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "WLMQueueWaitTime on DWH Redshift cluster has been >1m for more than 5minutes or more."
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -48,44 +44,44 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.DWH_cloudwatch_uid
-      
+
       model = jsonencode({
         dimensions = {
           ClusterIdentifier = "redshift-cluster-ft-grafana"
         }
-        metricName      = "WLMQueueWaitTime"
-        namespace       = "AWS/Redshift"
-        statistic       = "Maximum"
-        metricQueryType = 0
+        metricName       = "WLMQueueWaitTime"
+        namespace        = "AWS/Redshift"
+        statistic        = "Maximum"
+        metricQueryType  = 0
         metricEditorMode = 0
-        queryMode       = "Metrics"
-        region          = "default"
+        queryMode        = "Metrics"
+        region           = "default"
       })
     }
-    
+
     data {
-      ref_id        = "B"
+      ref_id         = "B"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
-        expression   = "A"
-        reducer      = "last"
-        type         = "reduce"
+        expression = "A"
+        reducer    = "last"
+        type       = "reduce"
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "B"
         type       = "threshold"
@@ -107,7 +103,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
       })
     }
   }
-  
+
   # Alert for WLMQueue BI
   rule {
     name           = "Alert_for_WLMQueue_BI"
@@ -115,11 +111,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "WLMQueueWaitTime on BI Redshift cluster has been >1m for more than 5minutes or more."
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -127,44 +123,44 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.BI_cloudwatch_uid
-      
+
       model = jsonencode({
         dimensions = {
           ClusterIdentifier = "redshift-cluster-ft-grafana"
         }
-        metricName      = "WLMQueueWaitTime"
-        namespace       = "AWS/Redshift"
-        statistic       = "Maximum"
-        metricQueryType = 0
+        metricName       = "WLMQueueWaitTime"
+        namespace        = "AWS/Redshift"
+        statistic        = "Maximum"
+        metricQueryType  = 0
         metricEditorMode = 0
-        queryMode       = "Metrics"
-        region          = "default"
+        queryMode        = "Metrics"
+        region           = "default"
       })
     }
-    
+
     data {
-      ref_id        = "B"
+      ref_id         = "B"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
-        expression   = "A"
-        reducer      = "last"
-        type         = "reduce"
+        expression = "A"
+        reducer    = "last"
+        type       = "reduce"
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "B"
         type       = "threshold"
@@ -186,7 +182,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
       })
     }
   }
-  
+
   # Alert for CPUUtilization DWH (higher threshold)
   rule {
     name           = "Alert_for_CPUUtilization_DWH_High"
@@ -194,11 +190,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "CPUUtilization threshold for DWH cluster breached"
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -206,44 +202,44 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.DWH_cloudwatch_uid
-      
+
       model = jsonencode({
         dimensions = {
           ClusterIdentifier = "redshift-cluster-ft-grafana"
         }
-        metricName      = "CPUUtilization"
-        namespace       = "AWS/Redshift"
-        statistic       = "Maximum"
-        metricQueryType = 0
+        metricName       = "CPUUtilization"
+        namespace        = "AWS/Redshift"
+        statistic        = "Maximum"
+        metricQueryType  = 0
         metricEditorMode = 0
-        queryMode       = "Metrics"
-        region          = "us-east-1"
+        queryMode        = "Metrics"
+        region           = "us-east-1"
       })
     }
-    
+
     data {
-      ref_id        = "B"
+      ref_id         = "B"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 600
         to   = 0
       }
-      
+
       model = jsonencode({
-        expression   = "A"
-        reducer      = "max"
-        type         = "reduce"
+        expression = "A"
+        reducer    = "max"
+        type       = "reduce"
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 600
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "B"
         type       = "threshold"
@@ -265,7 +261,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
       })
     }
   }
-  
+
   # Alert for CPUUtilization BI (higher threshold)
   rule {
     name           = "Alert_for_CPUUtilization_BI_High"
@@ -273,11 +269,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "CPUUtilization threshold for BI cluster breached"
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -285,44 +281,44 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.BI_cloudwatch_uid
-      
+
       model = jsonencode({
         dimensions = {
           ClusterIdentifier = "redshift-cluster-ft-grafana"
         }
-        metricName      = "CPUUtilization"
-        namespace       = "AWS/Redshift"
-        statistic       = "Maximum"
-        metricQueryType = 0
+        metricName       = "CPUUtilization"
+        namespace        = "AWS/Redshift"
+        statistic        = "Maximum"
+        metricQueryType  = 0
         metricEditorMode = 0
-        queryMode       = "Metrics"
-        region          = "us-east-1"
+        queryMode        = "Metrics"
+        region           = "us-east-1"
       })
     }
-    
+
     data {
-      ref_id        = "B"
+      ref_id         = "B"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 600
         to   = 0
       }
-      
+
       model = jsonencode({
-        expression   = "A"
-        reducer      = "max"
-        type         = "reduce"
+        expression = "A"
+        reducer    = "max"
+        type       = "reduce"
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 600
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "B"
         type       = "threshold"
@@ -344,7 +340,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
       })
     }
   }
-  
+
   # Alert for QueryExecutionTime DWH
   rule {
     name           = "Alert_for_QueryExecutionTime_DWH"
@@ -352,11 +348,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "QueryExecutionTime on DWH Redshift cluster has been >1m for more than 5minutes or more."
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -364,7 +360,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.DWH_Redshift_uid
-      
+
       model = jsonencode({
         rawSQL = <<-EOT
           SELECT
@@ -378,15 +374,15 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         EOT
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "A"
         type       = "threshold"
@@ -408,7 +404,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
       })
     }
   }
-  
+
   # Alert for QueryExecutionTime BI
   rule {
     name           = "Alert_for_QueryExecutionTime_BI"
@@ -416,11 +412,11 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
     condition      = "C"
     no_data_state  = "NoData"
     exec_err_state = "Error"
-    
+
     annotations = {
       summary = "QueryExecutionTime on BI Redshift cluster has been >1m for more than 5minutes or more."
     }
-    
+
     data {
       ref_id = "A"
       relative_time_range {
@@ -428,7 +424,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         to   = 0
       }
       datasource_uid = var.BI_Redshift_uid
-      
+
       model = jsonencode({
         rawSQL = <<-EOT
           SELECT
@@ -442,15 +438,15 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
         EOT
       })
     }
-    
+
     data {
-      ref_id        = "C"
+      ref_id         = "C"
       datasource_uid = "__expr__"
       relative_time_range {
         from = 300
         to   = 0
       }
-      
+
       model = jsonencode({
         expression = "A"
         type       = "threshold"
