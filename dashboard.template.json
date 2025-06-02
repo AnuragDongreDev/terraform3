@@ -18,13 +18,12 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "cloudwatch",
-        "uid": "bemgfqzcydon4f"
+        "uid": "${DWH_cloudwatch_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -64,9 +63,9 @@
               "mode": "off"
             }
           },
+          "mappings": [],
           "max": 100,
           "min": 0,
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -102,19 +101,18 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "bemgfqzcydon4f"
+            "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
             "ClusterIdentifier": "redshift-cluster-ft-grafana"
           },
           "expression": "",
           "id": "",
-          "label": "",
+          "label": "CPUUtilization-DWH",
           "logGroups": [],
           "matchExact": true,
           "metricEditorMode": 0,
@@ -124,7 +122,32 @@
           "period": "",
           "queryLanguage": "CWLI",
           "queryMode": "Metrics",
-          "refId": "A",
+          "refId": "redshift-DWH",
+          "region": "default",
+          "sqlExpression": "",
+          "statistic": "Average"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${BI_cloudwatch_uid}"
+          },
+          "dimensions": {
+            "ClusterIdentifier": "redshift-cluster-ft-grafana"
+          },
+          "expression": "",
+          "id": "",
+          "label": "CPUUtilization-BI",
+          "logGroups": [],
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "CPUUtilization",
+          "metricQueryType": 0,
+          "namespace": "AWS/Redshift",
+          "period": "",
+          "queryLanguage": "CWLI",
+          "queryMode": "Metrics",
+          "refId": "redshift-BI",
           "region": "default",
           "sqlExpression": "",
           "statistic": "Average"
@@ -134,9 +157,43 @@
       "type": "timeseries"
     },
     {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": true,
+          "normal": true,
+          "pending": true,
+          "recovering": true
+        },
+        "viewMode": "list"
+      },
+      "title": "Redshift Monitoring Alerts",
+      "type": "alertlist"
+    },
+    {
       "datasource": {
         "type": "cloudwatch",
-        "uid": "bemgfqzcydon4f"
+        "uid": "${DWH_cloudwatch_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -212,18 +269,20 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "cloudwatch",
-            "uid": "bemgfqzcydon4f"
+            "uid": "${DWH_cloudwatch_uid}"
           },
-          "dimensions": {},
+          "dimensions": {
+            "ClusterIdentifier": "redshift-cluster-ft-grafana",
+            "QueryPriority": "Highest"
+          },
           "expression": "",
           "hide": false,
           "id": "",
-          "label": "",
+          "label": "WLMQueueWaitTime-DWH",
           "logGroups": [],
           "matchExact": true,
           "metricEditorMode": 0,
@@ -233,7 +292,34 @@
           "period": "",
           "queryLanguage": "CWLI",
           "queryMode": "Metrics",
-          "refId": "B",
+          "refId": "redshift-DWH",
+          "region": "default",
+          "sqlExpression": "",
+          "statistic": "Maximum"
+        },
+        {
+          "datasource": {
+            "type": "cloudwatch",
+            "uid": "${BI_cloudwatch_uid}"
+          },
+          "dimensions": {
+            "ClusterIdentifier": "redshift-cluster-ft-grafana",
+            "QueryPriority": "Highest"
+          },
+          "expression": "",
+          "hide": false,
+          "id": "",
+          "label": "WLMQueueWaitTime-BI",
+          "logGroups": [],
+          "matchExact": true,
+          "metricEditorMode": 0,
+          "metricName": "WLMQueueWaitTime",
+          "metricQueryType": 0,
+          "namespace": "AWS/Redshift",
+          "period": "",
+          "queryLanguage": "CWLI",
+          "queryMode": "Metrics",
+          "refId": "redshift-BI",
           "region": "default",
           "sqlExpression": "",
           "statistic": "Average"
@@ -245,7 +331,7 @@
     {
       "datasource": {
         "type": "grafana-redshift-datasource",
-        "uid": "eemjx24g023uoa"
+        "uid": "${DWH_Redshift_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -321,15 +407,22 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
       "targets": [
         {
           "datasource": {
             "type": "grafana-redshift-datasource",
-            "uid": "eemjx24g023uoa"
+            "uid": "${DWH_Redshift_uid}"
           },
           "rawSQL": "    SELECT\n  query,\n  starttime,\n  endtime,\n  DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds\nFROM\n  stl_query\nWHERE\n  1=1 --userid > 1 -- exclude system queries\nORDER BY\n  starttime DESC;\n",
-          "refId": "A"
+          "refId": "redshift-DWH"
+        },
+        {
+          "datasource": {
+            "type": "grafana-redshift-datasource",
+            "uid": "${BI_Redshift_uid}"
+          },
+          "rawSQL": "SELECT query, starttime, endtime, DATEDIFF(seconds, starttime, endtime) AS execution_time_seconds FROM stl_query WHERE 1=1 ORDER BY starttime DESC;",
+          "refId": "redshift-BI"
         }
       ],
       "title": "QueryExecutionTime",
@@ -338,7 +431,7 @@
     {
       "datasource": {
         "type": "grafana-athena-datasource",
-        "uid": "eemk9eiajn7cwb"
+        "uid": "${DWH_Athena_uid}"
       },
       "fieldConfig": {
         "defaults": {
@@ -414,7 +507,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.6.0",
       "targets": [
         {
           "connectionArgs": {
@@ -426,11 +518,28 @@
           },
           "datasource": {
             "type": "grafana-athena-datasource",
-            "uid": "eemk9eiajn7cwb"
+            "uid": "${DWH_Athena_uid}"
           },
           "format": 1,
           "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
-          "refId": "A",
+          "refId": "Redshift-DWH",
+          "table": "historicaltrendbucketforcpuutilization"
+        },
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "cloudwatch_metrics_stream_db",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "${BI_Athena_uid}"
+          },
+          "format": 1,
+          "rawSQL": "SELECT\n  from_unixtime(timestamp/1000) AS time,\n  metric_name,\n  value.max AS cpu_utilization_max\nFROM historicaltrendbucketforcpuutilization\nWHERE metric_name = 'CPUUtilization'\n  AND from_unixtime(timestamp/1000) >= current_timestamp - interval '3' year\nORDER BY time ASC\n",
+          "refId": "Redshift-BI",
           "table": "historicaltrendbucketforcpuutilization"
         }
       ],
@@ -450,7 +559,6 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "EC2 Monitoring",
-  "uid": "demguq69nd728b",
-  "version": 16
+  "title": "Redshift Monitoring_test3",
+  "uid": "demguq69nd728b"
 }
