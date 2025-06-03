@@ -108,7 +108,7 @@
             "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "ft-data-reporting-test"
+            "ClusterIdentifier": "ft-data-warehouse-test"
           },
           "expression": "",
           "id": "",
@@ -133,7 +133,7 @@
             "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "ft-data-warehouse-test"
+            "ClusterIdentifier": "ft-data-reporting-test"
           },
           "expression": "",
           "id": "",
@@ -276,7 +276,7 @@
             "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "ft-data-reporting-test",
+            "ClusterIdentifier": "ft-data-warehouse-test",
             "QueryPriority": "Highest"
           },
           "expression": "",
@@ -303,7 +303,7 @@
             "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "ft-data-warehouse-test",
+            "ClusterIdentifier": "ft-data-reporting-test",
             "QueryPriority": "Highest"
           },
           "expression": "",
