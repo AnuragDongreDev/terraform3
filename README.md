@@ -1,165 +1,78 @@
-# Grafana Dashboard Deployment with Terraform
+# Grafana Redshift Monitoring
 
-This project deploys Grafana dashboards for monitoring Redshift clusters across multiple AWS accounts using Terraform.
+This Terraform module deploys Grafana dashboards and alerts for monitoring AWS Redshift clusters.
 
-## Project Structure
+## Overview
 
-- `dashboard.template.json` - Template for Grafana dashboard with variable placeholders
-- `main.tf` - Terraform configuration for deploying the dashboard
-- `variables.tf` - Variable definitions
-- `providers.tf` - Provider configuration
-- `outputs.tf` - Output definitions
-- `dev.tfvars` - Development environment variables
-- `prod.tfvars` - Production environment variables
+The module creates:
+- A Grafana folder for organizing dashboards and alerts. there are 5 panels:
+   1. CPU Utilization
+   2. WLMQueueWaitTime
+   3. QueryExecutionTime
+   4. historical trend for last 3 years for CPU Utilization
+   5. Alerts panel showing list of alerts and their state
+- Alert rules for monitoring critical Redshift metrics
+- Slack notification setup for alerts - TBD
 
-## Setup Instructions
+## Prerequisites
 
-### 1. Create Template Dashboard
+- Grafana instance with datasources configured(read below for details in "Required Datasources" section)
+- AWS Redshift clusters to monitor
 
-1. Export your dashboard from Grafana as JSON
-2. Rename it to `dashboard.template.json`
-3. Replace all hardcoded datasource UIDs with variables:
+## Required Datasources
 
-```json
-"datasource": {
-  "type": "cloudwatch",
-  "uid": "${DWH_cloudwatch_uid}"
-}
-```
-
-4. Make sure to replace UIDs in both locations:
-   - Panel-level datasource: `panels[].datasource.uid`
-   - Target-level datasource: `panels[].targets[].datasource.uid`
-
-### 2. Define Variables
-
-Create `variables.tf` with all required variables:
-
-```hcl
-variable "DWH_cloudwatch_uid" {
-  description = "UID for CloudWatch datasource for DWH cluster"
-  type        = string
-}
-
-variable "BI_cloudwatch_uid" {
-  description = "UID for CloudWatch datasource for BI cluster"
-  type        = string
-}
-
-# Add other datasource UIDs as needed
-```
-
-### 3. Configure Main Terraform File
-
-Update `main.tf` to use the template:
-
-```hcl
-resource "grafana_dashboard" "main" {
-  folder      = grafana_folder.monitoring.id
-  config_json = templatefile("${path.module}/dashboard.template.json", {
-    DWH_cloudwatch_uid = var.DWH_cloudwatch_uid
-    BI_cloudwatch_uid = var.BI_cloudwatch_uid
-    DWH_Redshift_uid = var.DWH_Redshift_uid
-    BI_Redshift_uid = var.BI_Redshift_uid
-    DWH_Athena_uid = var.DWH_Athena_uid
-    BI_Athena_uid = var.BI_Athena_uid
-  })
-  overwrite   = true
-}
-```
-
-### 4. Create Environment-Specific Variable Files
-
-Create `dev.tfvars` for development:
-
-```hcl
-DWH_cloudwatch_uid = "dev-dwh-cloudwatch-uid"
-BI_cloudwatch_uid = "dev-bi-cloudwatch-uid"
-DWH_Redshift_uid = "dev-dwh-redshift-uid"
-BI_Redshift_uid = "dev-bi-redshift-uid"
-DWH_Athena_uid = "dev-dwh-athena-uid"
-BI_Athena_uid = "dev-bi-athena-uid"
-```
-
-Create `prod.tfvars` for production:
-
-```hcl
-DWH_cloudwatch_uid = "prod-dwh-cloudwatch-uid"
-BI_cloudwatch_uid = "prod-bi-cloudwatch-uid"
-DWH_Redshift_uid = "prod-dwh-redshift-uid"
-BI_Redshift_uid = "prod-bi-redshift-uid"
-DWH_Athena_uid = "prod-dwh-athena-uid"
-BI_Athena_uid = "prod-bi-athena-uid"
-```
-
-### 5. Finding UIDs in Grafana
-
-To find the UIDs of datasources in each environment:
-
-1. Log into the Grafana instance
-2. Go to Configuration > Data Sources
-3. Click on a data source
-4. Look at the URL - it contains the UID (e.g., `/datasources/edit/abc123def456`)
-5. Record these UIDs in your environment-specific .tfvars files
-
-### 6. Deployment
-
-Deploy to development:
-
-```bash
-terraform init
-terraform apply -var-file=dev.tfvars
-```
-
-Deploy to production:
-
-```bash
-terraform init
-terraform apply -var-file=prod.tfvars
-```
+The following datasources must be configured in your Grafana instance:
+- CloudWatch datasources for both DWH and BI clusters
+- Redshift datasources for both DWH and BI clusters
+- Athena datasources for both DWH and BI clusters
 
 ## Usage
 
+1. Update the `dev.tfvars` or `prod.tfvars` file with your environment-specific values:
+   - Datasource UIDs for CloudWatch, Redshift, and Athena
+   - Slack channel name - TBD
+
+2. Initialize Terraform:
 ```bash
-# Initialize Terraform
 terraform init
+```
 
-# Preview changes
-terraform plan -var-file=dev.tfvars
-
-# Apply changes
+3. Apply the configuration:
+```bash
 terraform apply -var-file=dev.tfvars
-
-# To use custom values
-terraform apply -var-file=dev.tfvars -var="grafana_url=http://grafana.example.com" -var="folder_name=Production"
 ```
 
 ## Variables
 
-| Name | Description | Default |
-|------|-------------|---------|
-| grafana_url | URL of the Grafana instance | http://localhost:3000 |
-| grafana_auth | Authentication credentials | admin:admin |
-| folder_name | Grafana folder name | Redshift Monitoring |
-| DWH_cloudwatch_uid | UID for CloudWatch datasource for DWH cluster | (no default) |
-| BI_cloudwatch_uid | UID for CloudWatch datasource for BI cluster | (no default) |
-| DWH_Redshift_uid | UID for Redshift datasource for DWH cluster | (no default) |
-| BI_Redshift_uid | UID for Redshift datasource for BI cluster | (no default) |
-| DWH_Athena_uid | UID for Athena datasource for DWH cluster | (no default) |
-| BI_Athena_uid | UID for Athena datasource for BI cluster | (no default) |
+| Name | Description | Required |
+|------|-------------|----------|
+| grafana_url | URL of the Grafana instance | Yes |
+| slack channel name | slack channel to receive alert notifications | Yes |
+| DWH_cloudwatch_uid | UID for CloudWatch datasource for DWH cluster | Yes |
+| BI_cloudwatch_uid | UID for CloudWatch datasource for BI cluster | Yes |
+| DWH_Redshift_uid | UID for Redshift datasource for DWH cluster | Yes |
+| BI_Redshift_uid | UID for Redshift datasource for BI cluster | Yes |
+| DWH_Athena_uid | UID for Athena datasource for DWH cluster | Yes |
+| BI_Athena_uid | UID for Athena datasource for BI cluster | Yes |
 
-## Security Note
+## Cluster Identifiers
 
-For production use, do not store credentials in the code. Use environment variables:
+The module is configured to monitor the following Redshift clusters:
+- DWH cluster: `ft-data-reporting-test`
+- BI cluster: `ft-data-warehouse-test`
 
-```bash
-export TF_VAR_grafana_auth="apikey:yourapikey"
-terraform apply -var-file=prod.tfvars
-```
+## Customization
 
-## Notes
+To customize the alerts or dashboard, modify the following files:
+- `alert_rules.tf`: Contains alert rule definitions
+- `dashboard.template.json`: Contains the dashboard template
 
-- This approach allows the same dashboard to be deployed across different environments
-- Each environment can use its own data sources with different UIDs
-- The dashboard template can show data from multiple AWS accounts in the same panel
-- Make sure to update the .tfvars files when data source UIDs change in any environment
+
+
+
+
+
+## TBD:
+1. Slack notification to be setup by admin/devops 
+2. Slack channel name
+3. As per the structure of circleci's config.yml the terraform command won't consider the dev.tfvars. In that case need to check if the required param values need to be put in variables.tf or some such .tf file.

@@ -1,6 +1,6 @@
 # Use the same folder for both dashboards and alerts
 resource "grafana_folder" "monitoring_folder" {
-  title = "DPM-Redshift Monitoring"
+  title = "DPM-Redshift-Monitoring"
 }
 
 # Deploy dashboard
@@ -15,5 +15,5 @@ resource "grafana_dashboard" "main" {
       DWH_Athena_uid     = var.DWH_Athena_uid
       BI_Athena_uid      = var.BI_Athena_uid
   })
-  overwrite = false
+  overwrite = true
 }

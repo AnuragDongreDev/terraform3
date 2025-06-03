@@ -108,7 +108,7 @@
             "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "redshift-cluster-ft-grafana"
+            "ClusterIdentifier": "ft-data-reporting-test"
           },
           "expression": "",
           "id": "",
@@ -133,7 +133,7 @@
             "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "redshift-cluster-ft-grafana"
+            "ClusterIdentifier": "ft-data-warehouse-test"
           },
           "expression": "",
           "id": "",
@@ -276,7 +276,7 @@
             "uid": "${DWH_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "redshift-cluster-ft-grafana",
+            "ClusterIdentifier": "ft-data-reporting-test",
             "QueryPriority": "Highest"
           },
           "expression": "",
@@ -303,7 +303,7 @@
             "uid": "${BI_cloudwatch_uid}"
           },
           "dimensions": {
-            "ClusterIdentifier": "redshift-cluster-ft-grafana",
+            "ClusterIdentifier": "ft-data-warehouse-test",
             "QueryPriority": "Highest"
           },
           "expression": "",
@@ -559,6 +559,5 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Redshift Monitoring_test3",
-  "uid": "demguq69nd728b"
+  "title": "DPM-RedshiftDashboard"
 }

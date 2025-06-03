@@ -1,6 +1,6 @@
 # Create contact point for email notifications - this worked for me but we will need to change it for slcak
 resource "grafana_contact_point" "email" {
-  name = "AnuragContactPoint"
+  name = "DPMContactPoint"
 
   email {
     addresses = [var.alert_email]
@@ -19,8 +19,8 @@ resource "grafana_notification_policy" "default_policy" {
 }
 
 # Create additional alert rules for Redshift monitoring
-resource "grafana_rule_group" "redshift_monitoring_alerts" {
-  name             = "Redshift_Monitoring_EG4"
+resource "grafana_rule_group" "redshift_monitoring_alerts_group" {
+  name             = "DPM_EvaluationGroup"
   folder_uid       = grafana_folder.monitoring_folder.uid
   interval_seconds = 60 # 1m
   org_id           = 1
@@ -47,7 +47,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
 
       model = jsonencode({
         dimensions = {
-          ClusterIdentifier = "redshift-cluster-ft-grafana"
+          ClusterIdentifier = "ft-data-reporting-test"
         }
         metricName       = "WLMQueueWaitTime"
         namespace        = "AWS/Redshift"
@@ -126,7 +126,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
 
       model = jsonencode({
         dimensions = {
-          ClusterIdentifier = "redshift-cluster-ft-grafana"
+          ClusterIdentifier = "ft-data-warehouse-test"
         }
         metricName       = "WLMQueueWaitTime"
         namespace        = "AWS/Redshift"
@@ -205,7 +205,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
 
       model = jsonencode({
         dimensions = {
-          ClusterIdentifier = "redshift-cluster-ft-grafana"
+          ClusterIdentifier = "ft-data-reporting-test"
         }
         metricName       = "CPUUtilization"
         namespace        = "AWS/Redshift"
@@ -284,7 +284,7 @@ resource "grafana_rule_group" "redshift_monitoring_alerts" {
 
       model = jsonencode({
         dimensions = {
-          ClusterIdentifier = "redshift-cluster-ft-grafana"
+          ClusterIdentifier = "ft-data-warehouse-test"
         }
         metricName       = "CPUUtilization"
         namespace        = "AWS/Redshift"

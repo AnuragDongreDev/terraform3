@@ -1,14 +1,7 @@
 variable "grafana_url" {
   description = "URL of the Grafana instance"
   type        = string
-  default     = "http://localhost:3000"
-}
-
-variable "grafana_auth" {
-  description = "Authentication credentials for Grafana"
-  type        = string
-  sensitive   = true
-  default     = "admin:admin" # Default for local development only
+  default     = "https://grafana.ft.com"
 }
 
 variable "folder_name" {
@@ -20,7 +13,6 @@ variable "folder_name" {
 variable "alert_email" {
   description = "Email address to receive alert notifications"
   type        = string
-  default     = "anuragdongre198609@gmail.com"
 }
 
 variable "DWH_cloudwatch_uid" {
